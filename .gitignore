@@ -1,0 +1,67 @@
+# ==============================================================================
+# pfsense-kvm-iac — .gitignore
+# Hard Constraints: zero segredos, zero imagens (.iso/.qcow2), zero tfstate
+# ==============================================================================
+
+# Segredos efêmeros gerados localmente (chaves SSH, WireGuard, CA/TLS, hashes)
+secrets/
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+!*example*
+!*.tmpl
+
+# Variáveis de ambiente locais
+.env
+.env.*
+!.env.example
+
+# Imagens de disco, instaladores e artefatos ECL
+isos/
+*.iso
+*.iso.gz
+*.img
+*.img.gz
+*.qcow2
+*.raw
+*.vdi
+*.vmdk
+*.vhd
+
+# OpenTofu / Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+!*.tfvars.json.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Ansible & Python
+*.retry
+.ansible/
+ansible/inventory/*.cache
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Arquivos temporários de editores (vim) e SO
+*.swp
+*.swo
+*.swn
+*~
+.DS_Store
+Thumbs.db

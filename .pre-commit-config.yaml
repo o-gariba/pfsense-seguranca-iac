@@ -1,0 +1,51 @@
+# ==============================================================================
+# pfsense-kvm-iac — Pre-commit Configuration
+# Validações locais: segredos, formatação/schema IaC, shell scripts e Ansible
+# ==============================================================================
+minimum_pre_commit_version: "3.2.0"
+default_stages: [pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-xml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+      - id: detect-private-key
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        args: ["-x"]
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.97.3
+    hooks:
+      - id: terraform_fmt
+        args:
+          - --hook-config=--tf-path=tofu
+      - id: terraform_validate
+        files: ^tofu/
+        args:
+          - --hook-config=--tf-path=tofu
+          - --hook-config=--retry-once-with-cleanup=true
+      - id: terraform_tflint
+        files: ^tofu/
+
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v25.1.3
+    hooks:
+      - id: ansible-lint
+        files: ^ansible/
